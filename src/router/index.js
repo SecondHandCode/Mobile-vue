@@ -10,11 +10,7 @@ export const router = new Router(routerConfig)
 // 路由跳转之前
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
-  if (to.path === '/') {
-  next("hello")
-  } else {
-    next();
-  }
+  next();
 })
 // 路由完成之后
 router.afterEach((to) => {

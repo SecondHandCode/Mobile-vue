@@ -1,0 +1,131 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  /*禁止或显示系统默认菜单*/
+  -webkit-touch-callout: none;
+  /*禁止长按复制选择*/
+  -webkit-user-select: none;
+  /*禁止触摸a标签高亮 这个特别实用*/
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  /*流畅滚动*/
+  -webkit-overflow-scrolling: touch;
+  margin: 0;
+  padding: 0;
+  background: #f0eff5;
+}
+
+@media screen and (min-width: 320px) and (max-width: 375px) {
+  html {
+    font-size: 11px
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 414px) {
+  html {
+    font-size: 12px
+  }
+}
+
+@media screen and (min-width: 415px) and (max-width: 639px) {
+  html {
+    font-size: 15px
+  }
+}
+
+@media screen and (min-width: 640px) and (max-width: 719px) {
+  html {
+    font-size: 20px
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 749px) {
+  html {
+    font-size: 22.5px
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 799px) {
+  html {
+    font-size: 23.5px
+  }
+}
+
+@media screen and (min-width: 800px) {
+  html {
+    font-size: 25px
+  }
+}
+
+/*1rem 对应的是 HTML font-size*/
+a, img {
+  -webkit-touch-callout: none; /*禁止长按链接与图片弹出菜单*/
+}
+
+ul li {
+  list-style-type: none;
+}
+[v-cloak]{
+  display: none;
+}
+[class*='wm-relateive'] {
+  position: relative;
+}
+
+.wm-heard {
+  display: block;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 1.8rem;
+  padding: 10px;
+  background: #ffffff;
+  color: #323233;
+}
+
+.wm-hr:after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  background: #f0eff5;
+}
+
+/*首页 列表部分*/
+.wm-list-main {
+  display: block;
+  box-sizing: border-box;
+  background: #ffffff;
+  margin-top: 20px;
+}
+
+.wm-list-main .wm-title-son {
+  font-size: 1.8rem;
+  padding: 6px 15px;
+  font-weight: bold;
+}
+
+.wm-list-ul {
+  box-sizing: border-box;
+  display: block;
+  font-size: 1.6rem;
+}
+
+.wm-list-ul li {
+  height: 3.8333rem;
+  line-height: 3.85rem;
+  padding: 0px 15px;
+  position: relative;
+  border-bottom: 1px solid  #f0eff5;
+}
+
+.wm-list-ul li:active {
+  background: #f0eff5;
+}

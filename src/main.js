@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import {router} from './router'
+import commoncss from './style/common.css'
+import wenfontIcon from './webfontIcon/css/font-awesome.min.css'
 
 Vue.config.productionTip = false
 

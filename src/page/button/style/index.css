@@ -6,7 +6,7 @@
   height: 3.4rem;
   line-height: 3.4rem;
   outline: none;
-  border-radius: 2px;
+  border-radius: 4px;
   /*去除默认样式 button */
   -webkit-appearance: none;
   /*字体缩放，随着屏幕放大而改变，这样写的话不会缩放了*/

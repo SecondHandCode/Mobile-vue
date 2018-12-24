@@ -54,12 +54,10 @@
             'border': `1px solid ${this.backGroundColor}`
           }
         }
-        console.log(styleObj)
         return styleObj;
       }
     },
     mounted() {
-      console.log(this.btnTypes)
     }
   }
 </script>

@@ -1,0 +1,18 @@
+.wm-card {
+  background: #ffffff;
+  box-sizing: border-box;
+  font-size: 2rem;
+  height: 20rem;
+  position: relative;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  margin: 20px 0;
+}
+.wm-card-head{
+  padding: 10px 20px;
+  font-size: 1.6rem;
+  text-align: left;
+}
+.wm-card-border-none{
+  border: none;
+}

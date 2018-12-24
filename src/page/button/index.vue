@@ -1,5 +1,6 @@
 <template>
-
+  <Card title="基础样式">
+  </Card>
 </template>
 
 <script>

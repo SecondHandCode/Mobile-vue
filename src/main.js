@@ -5,9 +5,10 @@ import App from './App'
 import {router} from './router'
 import commoncss from './style/common.css'
 import wenfontIcon from './webfontIcon/css/font-awesome.min.css'
+import card from './page/card/wm-card'
 
 Vue.config.productionTip = false
-
+Vue.component('Card', card)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

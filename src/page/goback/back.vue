@@ -32,6 +32,7 @@
     padding: 6px 15px;
     position: relative;
     background: #ffffff;
+    font-weight: 500;
   }
 
   .go-back .t-text {

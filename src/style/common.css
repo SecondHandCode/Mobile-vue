@@ -70,9 +70,11 @@ a, img {
 ul li {
   list-style-type: none;
 }
-[v-cloak]{
+
+[v-cloak] {
   display: none;
 }
+
 [class*='wm-relateive'] {
   position: relative;
 }
@@ -123,9 +125,14 @@ ul li {
   line-height: 3.85rem;
   padding: 0px 15px;
   position: relative;
-  border-bottom: 1px solid  #f0eff5;
+  border-bottom: 1px solid #f0eff5;
 }
 
 .wm-list-ul li:active {
   background: #f0eff5;
+}
+
+/*通用padding 默认左右20px 上下  0*/
+.wm-padding-normal {
+  padding: 6px 20px;
 }

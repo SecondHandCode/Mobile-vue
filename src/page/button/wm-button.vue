@@ -22,10 +22,6 @@
       // 颜色传入，默认字体颜色白色，背景色 跟border 都是传入的颜色
       backGroundColor: String,
       disabled: Boolean,
-      text: {
-        type: String,
-        default: "默认"
-      },
       type: {
         /*验证器，如果返回true 那么外面传进的值 就是可用的，反之使用的是默认值*/
         /*belle 是公司测试姐姐*/

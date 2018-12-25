@@ -2,7 +2,6 @@
   background: #ffffff;
   box-sizing: border-box;
   font-size: 2rem;
-  height: 20rem;
   position: relative;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
@@ -10,7 +9,8 @@
 }
 .wm-card-head{
   padding: 10px 20px;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  color: rgba(69,90,100,.6);
   text-align: left;
 }
 .wm-card-border-none{

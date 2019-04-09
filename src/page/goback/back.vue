@@ -1,6 +1,9 @@
 <template>
   <div class="go-back">
-    <i class="fa fa-angle-left fa-3x" aria-hidden="true" @click="goBack"></i>
+    <!--返回上一层-->
+    <div class="go-left">
+      <i class="left-arrow" aria-hidden="true" @click="goBack"></i>
+    </div>
     <div class="t-text">
       {{title}}
     </div>
@@ -29,33 +32,40 @@
 
 <style scoped>
   .go-back {
-    padding: 6px 15px;
     position: relative;
     background: #ffffff;
     font-weight: 500;
-  }
-
-  .go-back .t-text {
-    position: absolute;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    font-size: 1.6rem;
-    height: 1.6rem;
-    line-height: 1.6rem;
-    z-index: 0;
+    font-size: 18px;
   }
 
-  .fa-angle-left {
-    z-index: 99;
+  .go-left {
+    position: absolute;
+    left: 20px;
+    top: 4px;
+  }
+
+  .left-arrow {
     position: relative;
-    width: 20px;
+    display: inline-block;
+    border-left: 18px solid black;
+    border-top: 18px solid black;
+    width: 0;
+    height: 0;
+    transform: rotate(-45deg);
   }
 
-  .fa-angle-left:active {
-    background: #f0eff5;
+  .left-arrow::after {
+    content: "";
+    position: absolute;
+    top: -16px;
+    z-index: 1;
+    left: -16px;
+    border-left: 20px solid #ffffff;
+    border-top: 20px solid #ffffff;
   }
+
+
 </style>

@@ -105,3 +105,10 @@
 .wm-button:active::before {
   opacity: 0.15;
 }
+
+/**
+loading的  颜色
+ */
+.loading-svg-color{
+  fill: #ffffff;
+}

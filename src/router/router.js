@@ -1,5 +1,5 @@
 import Main from '../page/Main.vue'
-import Back from '../page/backMain'
+import BackMain from '../page/backMain'
 
 export const notingRouters = {
   path: "*",
@@ -15,7 +15,7 @@ export const basicsViewRouters = [
     meta: {
       title: "基础内容"
     },
-    component: Back,
+    component: BackMain,
     children: [
       {
         path: "index-wm-button",

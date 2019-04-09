@@ -5,7 +5,6 @@ import App from './App'
 import {router} from './router'
 import card from './page/card/wm-card'
 import commoncss from './style/common.css'
-import wenfontIcon from './webfontIcon/css/font-awesome.min.css'
 Vue.config.productionTip = false
 Vue.component('Card', card)
 

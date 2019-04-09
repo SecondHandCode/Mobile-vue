@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class=" wm-heard">吃瓜组件</p>
+    <p class=" wm-heard">移动端插件</p>
     <div class="wm-list-main" v-for="(item,index) in indexList" :key="index">
       <div class="wm-title-son">{{item.title}}</div>
       <ul class="wm-list-ul">

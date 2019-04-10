@@ -33,7 +33,7 @@
       }
     },
     mounted() {
-      this.hasHead = this.title || !this.$slots.title
+      this.hasHead = this.$slots.title
     }
   }
 </script>

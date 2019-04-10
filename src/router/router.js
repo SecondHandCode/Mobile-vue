@@ -27,6 +27,26 @@ export const basicsViewRouters = [
         component: () => import("@/page/button/index.vue")
       }
     ]
+  },
+  {
+    path: "/tab",
+    name: "tab",
+    title: "tab内容框",
+    meta: {
+      title: "tab内容框"
+    },
+    component: BackMain,
+    children: [
+      {
+        path: "index-wm-tab",
+        name: "index-wm-tab",
+        title: "tab组件",
+        meta: {
+          title: "tab组件"
+        },
+        component: () => import("@/page/tab/index.vue")
+      }
+    ]
   }
 ]
 export const otherAppRouters = [

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show">
+  <div v-show="show" :style="tabContent" >
     <slot></slot>
   </div>
 </template>
@@ -9,7 +9,7 @@
     name: "tab",
     data() {
       return {
-        show: false
+        show: true
       }
     },
     props: {
@@ -19,6 +19,26 @@
           return "默认值"
         }
       }
+    },
+    watch: {
+      show(r) {
+        if (this.$parent.scrollable) {
+          this.show = true;
+        }
+      }
+    },
+    computed: {
+      tabContent() {
+        return {
+          "width": `${this.$parent.tabsWidth}px`,
+          'display': 'table-cell'
+        }
+      }
+    },
+    methods:{
+    },
+    mounted() {
+      this.$parent.updateStatus();
     }
   }
 </script>

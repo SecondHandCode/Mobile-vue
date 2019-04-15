@@ -1,5 +1,5 @@
 <template>
-  <div class="wm-tabs">
+  <div class="wm-tabs" ref="tabs" v-cloak>
     <div :class="tabClass" ref="navs">
       <div :class="navClass(item,index)" :style="{'color': index === activeKey ? activeTextColor: ''}"
            v-for="(item,index) in navList" :key="index" @click.stop="clickNav(index)">
@@ -9,7 +9,11 @@
       <div :class="tabSolid" :style="tabSolidStyle"></div>
     </div>
     <!--内容区域-->
-    <div ref="tabs" class="parent-tab">
+    <div ref="content" class="parent-tab" :class="tabContentScroll"
+         @touchstart.stop.prevent="touchStart"
+         @touchmove.stop.prevent="touchmove"
+         @touchend.stop.prevent="touchend"
+         :style="scrollStyle">
       <slot></slot>
     </div>
   </div>
@@ -35,6 +39,13 @@
   }
 
   /*
+  * 获取坐标
+  * */
+  function getTouchXY(e) {
+    return e["changedTouches"][0];
+  }
+
+  /*
   *  1.获取子组件
   *  2.验证子组件
   *  3.新建数组 nav 栏
@@ -52,7 +63,12 @@
       return {
         navList: [],
         activeKey: this.value,
-        navWidth: 0
+        navWidth: 0,
+        tabsWidth: 375,// 给予默认值 兼容 闪烁
+        translateX: 0,
+        touchStartX: 0,// 第一个坐标点
+        touchMoveStartX: 0, // 移动中 变动的坐标
+        touchEndX: 0,// 离开时的坐标
       }
     },
     props: {
@@ -100,6 +116,7 @@
         this.getTabs().forEach((v, i) => v.show = i === this.activeKey)
       },
       updateNavsScroll() {
+        this.translateX = -(this.tabsWidth * this.activeKey)
         if (this.navList.length > MIN_NAVSLIST_LENGTH) {
           let scrollLeft = (((this.navWidth * (this.activeKey + 0.5))) - this.$refs.navs.clientWidth / 2);
           if (scrollLeft < 0) {
@@ -126,6 +143,45 @@
           }
         ]
       },
+      touchStart(e) {
+        let coordinate = getTouchXY(e)
+        console.log(coordinate)
+        this.touchStartX = coordinate.clientX;
+        this.touchMoveStartX = coordinate.clientX;
+      },
+      touchmove(e) {
+        let coordinate = getTouchXY(e)
+        let moveValue = coordinate.clientX - this.touchMoveStartX;
+        this.touchMoveStartX = coordinate.clientX
+        this.translateX += moveValue
+        //手指滑动的时候 去除过渡效果
+        this.$refs.content.style.transitionDuration = '0ms'
+        console.log(moveValue);
+      },
+      touchend(e) {
+        let coordinate = getTouchXY(e);
+        this.$refs.content.style.transitionDuration = '300ms';
+        let endX = coordinate.clientX - this.touchStartX;
+        if (Math.abs(endX) < this.tabsWidth / 4) {
+          this.translateX = -(this.tabsWidth * (this.activeKey));
+          return;
+        }
+        // 手指右滑动
+        if (endX > 0) {
+          this.activeKey -= 1;
+          if (this.activeKey < 0) {
+            this.activeKey = 0;
+          }
+          this.translateX = -(this.tabsWidth * (this.activeKey))
+        } else {
+          // 左滑动
+          this.activeKey += 1;
+          if (this.activeKey > (this.navList.length - 1)) {
+            this.activeKey = this.navList.length - 1;
+          }
+          this.translateX = -(this.tabsWidth * (this.activeKey))
+        }
+      }
     },
     computed: {
       tabClass() {
@@ -147,20 +203,42 @@
           'transition-duration': '0.3s'
         }
       },
+      tabContentScroll() {
+        return [
+          {
+            ['parent-tab-scroll']: this.scrollable
+          }
+        ]
+      },
+      scrollStyle() {
+        return {
+          'width': `${this.tabsWidth * this.navList.length}px`,
+          'transition-duration': '300ms',
+          'transform': `translate(${this.translateX}px, 0px) translateZ(0px)`
+        }
+      }
     },
     mounted() {
       // 2.
       this.updateNav()
       this.$nextTick(() => {
         this.navWidth = this.scrollable ? this.$refs.navs.clientWidth / 4 : this.$refs.navs.clientWidth / this.navList.length;
+        this.tabsWidth = this.$refs.tabs.clientWidth;
       })
-    }
+    },
   }
 </script>
 
 <style scoped lang="less">
+
+  [v-cloak] {
+    display: none;
+  }
+
   .wm-tabs {
     font-size: 14px;
+    position: relative;
+    overflow: hidden;
 
     &-tab {
       position: relative;
@@ -213,5 +291,10 @@
     box-sizing: border-box;
     white-space: nowrap;
     overflow: hidden;
+    width: 100%;
+
+    &-scroll {
+      position: relative;
+    }
   }
 </style>

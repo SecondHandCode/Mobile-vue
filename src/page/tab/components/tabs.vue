@@ -6,13 +6,13 @@
         <span class="wm-ellipsis"> {{item.name}}</span>
       </div>
       <!--下划线-->
-      <div :class="tabSolid" :style="tabSolidStyle"></div>
+      <div :class="tabSolid" ref="solid" :style="tabSolidStyle"></div>
     </div>
     <!--内容区域-->
     <div ref="content" class="parent-tab" :class="tabContentScroll"
-         @touchstart.stop.prevent="touchStart"
-         @touchmove.stop.prevent="touchmove"
-         @touchend.stop.prevent="touchend"
+         @touchstart="touchStart"
+         @touchmove="touchmove"
+         @touchend="touchend"
          :style="scrollStyle">
       <slot></slot>
     </div>
@@ -68,10 +68,15 @@
         translateX: 0,
         touchStartX: 0,// 第一个坐标点
         touchMoveStartX: 0, // 移动中 变动的坐标
+        touchStartY: 0,// 第一个坐标点
+        touchMoveStartY: 0, // 移动中 变动的坐标
         touchEndX: 0,// 离开时的坐标
+        scrollLeft: 0,// 开始记录的 滑动值
+        operate: undefined// 操作方向 X：左右滑动，Y：上下滑动
       }
     },
     props: {
+      // 是否滚动
       scrollable: {
         type: Boolean,
         default: () => {
@@ -144,43 +149,84 @@
         ]
       },
       touchStart(e) {
-        let coordinate = getTouchXY(e)
-        console.log(coordinate)
-        this.touchStartX = coordinate.clientX;
-        this.touchMoveStartX = coordinate.clientX;
-      },
-      touchmove(e) {
-        let coordinate = getTouchXY(e)
-        let moveValue = coordinate.clientX - this.touchMoveStartX;
-        this.touchMoveStartX = coordinate.clientX
-        this.translateX += moveValue
-        //手指滑动的时候 去除过渡效果
-        this.$refs.content.style.transitionDuration = '0ms'
-        console.log(moveValue);
-      },
-      touchend(e) {
-        let coordinate = getTouchXY(e);
-        this.$refs.content.style.transitionDuration = '300ms';
-        let endX = coordinate.clientX - this.touchStartX;
-        if (Math.abs(endX) < this.tabsWidth / 4) {
-          this.translateX = -(this.tabsWidth * (this.activeKey));
+        if (!this.scrollable) {
           return;
         }
-        // 手指右滑动
-        if (endX > 0) {
-          this.activeKey -= 1;
-          if (this.activeKey < 0) {
-            this.activeKey = 0;
-          }
-          this.translateX = -(this.tabsWidth * (this.activeKey))
-        } else {
-          // 左滑动
-          this.activeKey += 1;
-          if (this.activeKey > (this.navList.length - 1)) {
-            this.activeKey = this.navList.length - 1;
-          }
-          this.translateX = -(this.tabsWidth * (this.activeKey))
+        let coordinate = getTouchXY(e)
+        if (!this.operate) {
+          this.touchStartX = coordinate.clientX;
+          this.touchMoveStartX = coordinate.clientX;
+          this.touchStartY = coordinate.clientY;
+          this.touchMoveStartY = coordinate.clientY;
+          this.scrollLeft = this.$refs.navs.scrollLeft;
+          this.operate = undefined;
         }
+      },
+      touchmove(e) {
+        if (!this.scrollable) {
+          return;
+        }
+        let coordinate = getTouchXY(e)
+        // 首先要知道 用户第一个手势的朝向
+        let moveValueX = coordinate.clientX - this.touchMoveStartX;
+        let moveValueY = coordinate.clientY - this.touchMoveStartY;
+        if (!this.operate) {
+          if (Math.abs(moveValueY) > Math.abs(moveValueX)) {
+            this.operate = 'Y'
+          } else {
+            this.operate = 'X'
+          }
+        }
+        if (this.operate === 'X') {
+          this.touchMoveStartX = coordinate.clientX
+          this.translateX += moveValueX
+          //手指滑动的时候 去除过渡效果
+          this.$refs.content.style.transitionDuration = '0ms'
+          //线条滑动
+          this.$refs.solid.style.transitionDuration = '0ms'
+          this.$refs.solid.style.transform = `translateX(${this.activeKey * this.navWidth + this.navWidth / 4 + ((this.touchStartX - coordinate.clientX) / 4)}px)`
+          let scrollLeft = (((this.navWidth * (this.activeKey + 0.5))) - this.$refs.navs.clientWidth / 2);
+          let leftValue = scrollLeft / this.tabsWidth * (this.touchStartX - coordinate.clientX);
+          if (scrollLeft < 0) {
+            this.$refs.navs.scrollLeft = 0;
+          } else if (scrollLeft > this.$refs.navs.scrollWidth - this.$refs.navs.clientWidth) {
+            this.$refs.navs.scrollLeft = this.$refs.navs.scrollWidth - this.$refs.navs.clientWidth
+          } else {
+            this.$refs.navs.scrollLeft = (this.scrollLeft) + (leftValue > scrollLeft ? scrollLeft : leftValue)
+          }
+          e.preventDefault();
+        }
+
+      },
+      touchend(e) {
+        if (this.operate === 'X') {
+          let coordinate = getTouchXY(e);
+          this.$refs.content.style.transitionDuration = '300ms';
+          let endX = coordinate.clientX - this.touchStartX;
+          this.$refs.solid.style.transitionDuration = '0.3s'
+          this.$refs.solid.style.transform = `translateX(${this.activeKey * this.navWidth + this.navWidth / 4}px)`
+          if (Math.abs(endX) < this.tabsWidth / 4) {
+            this.translateX = -(this.tabsWidth * (this.activeKey));
+            return;
+          }
+          // 手指右滑动
+          if (endX > 0) {
+            this.activeKey -= 1;
+            if (this.activeKey < 0) {
+              this.activeKey = 0;
+            }
+            this.translateX = -(this.tabsWidth * (this.activeKey))
+          } else {
+            // 左滑动
+            this.activeKey += 1;
+            if (this.activeKey > (this.navList.length - 1)) {
+              this.activeKey = this.navList.length - 1;
+            }
+            this.translateX = -(this.tabsWidth * (this.activeKey))
+          }
+          this.updateNavsScroll();
+        }
+        this.operate = undefined;
       }
     },
     computed: {

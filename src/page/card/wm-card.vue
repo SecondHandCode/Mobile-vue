@@ -1,11 +1,9 @@
 <template>
   <div class="wm-card">
     <div :class="headClass" v-if="hasHead">
-      <slot name="title">
         <p v-if="title">
             <span>{{title}}</span>
         </p>
-      </slot>
     </div>
     <slot></slot>
   </div>
@@ -33,7 +31,7 @@
       }
     },
     mounted() {
-      this.hasHead = this.$slots.title
+      this.hasHead = this.$slots.title || this.title
     }
   }
 </script>

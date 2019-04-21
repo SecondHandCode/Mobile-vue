@@ -1,11 +1,20 @@
 <template>
   <div>
-    <Card>
+    <Card title="滚动切换">
       <!--tab 栏-->
       <tabs :scrollable="true" solid-color="#92C03C">
         <tab title="待发货">
-          <div style="height: 500px;background-color: red">
+          <div style="height: 500px;background-color: red;overflow: auto">
             待发货
+            <div style="height: 500px;background-color: #FE007F">
+              待收货
+            </div>
+            <div style="height: 500px;background-color: #FE007F">
+              待收货
+            </div>
+            <div style="height: 500px;background-color: #FE007F">
+              待收货
+            </div>
           </div>
         </tab>
         <tab title="待收货">
@@ -30,7 +39,7 @@
         </tab>
       </tabs>
     </Card>
-    <Card>
+    <Card title="正常切换">
       <!--tab 栏-->
       <tabs>
         <tab title="待发货">

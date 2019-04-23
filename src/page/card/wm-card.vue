@@ -5,7 +5,7 @@
             <span>{{title}}</span>
         </p>
     </div>
-    <slot></slot>
+      <slot></slot>
   </div>
 </template>
 
@@ -37,5 +37,7 @@
 </script>
 
 <style scoped>
-
+  .card-main {
+    padding: 0 20px;
+  }
 </style>

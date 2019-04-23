@@ -25,7 +25,16 @@ export const basicsViewRouters = [
           title: "button组件"
         },
         component: () => import("@/page/button/index.vue")
-      }
+      },
+      {
+        path: "index-wm-switch",
+        name: "index-wm-switch",
+        title: "switch组件",
+        meta: {
+          title: "switch组件"
+        },
+        component: () => import("@/page/switch/index.vue")
+      },
     ]
   },
   {

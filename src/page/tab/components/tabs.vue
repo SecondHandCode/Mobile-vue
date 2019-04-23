@@ -83,12 +83,14 @@
           return false;
         }
       },
+      // 滚动条样式替换
       solidColor: {
         type: String,
         default: () => {
           return `#f44`
         }
       },
+      // 选中的样式替换
       activeTextColor: {
         type: String,
         default: () => {
@@ -118,27 +120,33 @@
         this.updateStatus();
       },
       updateStatus() {
-        this.getTabs().forEach((v, i) => v.show = i === this.activeKey)
+        this.getTabs().forEach((v, i) => {
+          v.show = i === this.activeKey
+          if (v.show) {
+            // 第一次加载
+            v.firstLoading = true;
+          }
+        })
       },
       updateNavsScroll() {
-        this.translateX = -(this.tabsWidth * this.activeKey)
-        if (this.navList.length > MIN_NAVSLIST_LENGTH) {
-          let scrollLeft = (((this.navWidth * (this.activeKey + 0.5))) - this.$refs.navs.clientWidth / 2);
-          if (scrollLeft < 0) {
-            scrollLeft = 0;
-          } else if (scrollLeft > this.$refs.navs.scrollWidth - this.$refs.navs.clientWidth) {
-            scrollLeft = this.$refs.navs.scrollWidth - this.$refs.navs.clientWidth
+        if (this.scrollable) {
+          this.translateX = -(this.tabsWidth * this.activeKey)
+          if (this.navList.length > MIN_NAVSLIST_LENGTH) {
+            let scrollLeft = (((this.navWidth * (this.activeKey + 0.5))) - this.$refs.navs.clientWidth / 2);
+            if (scrollLeft < 0) {
+              scrollLeft = 0;
+            } else if (scrollLeft > this.$refs.navs.scrollWidth - this.$refs.navs.clientWidth) {
+              scrollLeft = this.$refs.navs.scrollWidth - this.$refs.navs.clientWidth
+            }
+            animate(this.$refs.navs, scrollLeft)
           }
-          animate(this.$refs.navs, scrollLeft)
         }
+        this.updateStatus();
       },
       clickNav(index) {
         this.activeKey = index;
-        this.updateStatus();
-        // 滚动的进来
-        if (this.scrollable) {
-          this.updateNavsScroll();
-        }
+        this.updateNavsScroll();
+
       },
       navClass(item, index) {
         return [
@@ -227,6 +235,9 @@
           this.updateNavsScroll();
         }
         this.operate = undefined;
+      },
+      firstLoadingFn(e) {
+        this.$emit('on-first', e);
       }
     },
     computed: {

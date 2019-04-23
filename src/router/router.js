@@ -11,9 +11,9 @@ export const basicsViewRouters = [
   {
     path: "/basics",
     name: "basics",
-    title: "基础内容",
+    title: "基础",
     meta: {
-      title: "基础内容"
+      title: "基础"
     },
     component: BackMain,
     children: [
@@ -31,18 +31,18 @@ export const basicsViewRouters = [
   {
     path: "/tab",
     name: "tab",
-    title: "tab内容框",
+    title: "高级",
     meta: {
-      title: "tab内容框"
+      title: "高级"
     },
     component: BackMain,
     children: [
       {
         path: "index-wm-tab",
         name: "index-wm-tab",
-        title: "tab组件",
+        title: "tabNav",
         meta: {
-          title: "tab组件"
+          title: "tabNav"
         },
         component: () => import("@/page/tab/index.vue")
       }

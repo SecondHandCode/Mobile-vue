@@ -41,13 +41,13 @@
     </Card>
     <Card title="正常切换">
       <!--tab 栏-->
-      <tabs>
-        <tab title="待发货">
+      <tabs @on-first="first">
+        <tab title="待发货" >
           <div style="height: 500px;background-color: red">
             待发货
           </div>
         </tab>
-        <tab title="待收货">
+        <tab title="待收货" >
           <div style="height: 500px;background-color: #FE007F">
             待收货
           </div>
@@ -78,7 +78,12 @@
 
   export default {
     name: "index",
-    components: {tab, tabs}
+    components: {tab, tabs},
+    methods: {
+      first(e) {
+        console.log(e)
+      }
+    }
   }
 </script>
 

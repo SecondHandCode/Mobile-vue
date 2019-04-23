@@ -9,7 +9,8 @@
     name: "tab",
     data() {
       return {
-        show: true
+        show: true,
+        firstLoading: false
       }
     },
     props: {
@@ -24,6 +25,11 @@
       show(r) {
         if (this.$parent.scrollable) {
           this.show = true;
+        }
+      },
+      firstLoading(r) {
+        if (r) {
+          this.$parent.firstLoadingFn(this);
         }
       }
     },
